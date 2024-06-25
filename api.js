@@ -1,7 +1,7 @@
 const admin = require('firebase-admin');
 const express = require('express');
 const bodyParser = require('body-parser');
-const serviceAccount = require('./atom-43343-firebase-adminsdk-y7xc2-8cead5ae49.json');
+const serviceAccount = require('/etc/secrets/atom-43343-firebase-adminsdk-y7xc2-8cead5ae49.json');
 const cors = require('cors');
 
 admin.initializeApp({
@@ -33,7 +33,6 @@ app.get('/', (req, res) => {
 
 app.get('/tasks', verifyToken, async (req, res) => {
     const { uid } = req.user;
-    console.log(uid);
     try {
         const todosSnapshot = await db.collection('todos').where('uid', '==', uid).get();
         const todos = todosSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
